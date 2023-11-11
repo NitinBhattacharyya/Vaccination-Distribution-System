@@ -28,8 +28,7 @@ public class VaccinationCenterController {
     }
 
     @GetMapping("/api/vaccinationcenter/{centerName}")
-    public List<CenterNameDoseType> getParticularDoseCount(@PathVariable String centerName, @RequestParam String doseType)
-    {
+    public List<CenterNameDoseType> getParticularDoseCount(@PathVariable String centerName, @RequestParam String doseType) throws Exception {
         return vaccinationCenterService.getParticularVaccinationCenterDoseCount(centerName,doseType);
     }
 }

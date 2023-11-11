@@ -26,14 +26,20 @@ public class VaccinationCenterService {
         return vaccinationCenterRepo.findByCenterName(name);
     }
 
-    public List<CenterNameDoseType> getParticularVaccinationCenterDoseCount(String centerName, String doseType)
-    {
+    public List<CenterNameDoseType> getParticularVaccinationCenterDoseCount(String centerName, String doseType) throws Exception {
         List<VaccinationCenter> list=vaccinationCenterRepo.findByCenterName(centerName);
         List<CenterNameDoseType> responseList=new ArrayList<>();
         for(VaccinationCenter vc: list)
         {
-            Object doseValue=new BeanWrapperImpl(vc).getPropertyValue(doseType);
-            responseList.add(new CenterNameDoseType(vc.getCenterName(),doseType,(Integer)doseValue));
+            try{
+
+                Object doseValue=new BeanWrapperImpl(vc).getPropertyValue(doseType);
+                responseList.add(new CenterNameDoseType(vc.getCenterName(),doseType,(Integer)doseValue));
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Entered Dose Type Does not exist");
+            }
         }
         return responseList;
     }
