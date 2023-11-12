@@ -1,5 +1,7 @@
 package com.vaccinationdistributionsystem.Vaccination.Distribution.System.Entity;
 
+import com.vaccinationdistributionsystem.Vaccination.Distribution.System.DRO.VaccinationCenterVsDocCount;
+import com.vaccinationdistributionsystem.Vaccination.Distribution.System.Service.VaccinationCenterService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,20 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@SqlResultSetMapping(name = "VaccinationCenterVsDoctorMapping",classes = @ConstructorResult(
+        targetClass = VaccinationCenterVsDocCount.class,
+        columns = {
+                @ColumnResult(name = "vcid",type = int.class),
+                @ColumnResult(name = "num_doctors",type = int.class)
+        }
+))
+@NamedNativeQuery(name ="Doctor.getVaccinationCenterVsDocCount" ,query = "SELECT vc.vcid, COUNT(d.doc_id) AS num_doctors\n" +
+        "FROM vaccination_center  vc\n" +
+        "LEFT JOIN doctor d ON vc.vcid = d.vcid\n" +
+        "GROUP BY vc.vcid\n" +
+        "ORDER BY num_doctors ASC\n"+
+        "LIMIT 1;",resultSetMapping = "VaccinationCenterVsDoctorMapping")
+//resultClass attribute only takes entity classes,not for DTOs
 public class Doctor {
 
     @Id
