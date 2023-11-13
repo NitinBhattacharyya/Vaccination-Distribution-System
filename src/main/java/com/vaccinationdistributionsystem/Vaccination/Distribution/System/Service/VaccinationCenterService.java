@@ -18,6 +18,7 @@ public class VaccinationCenterService {
 
     public void createVaccinationCenter(VaccinationCenter vaccinationCenter)
     {
+        vaccinationCenter.setType(vaccinationCenter.getType().toUpperCase());
         vaccinationCenterRepo.save(vaccinationCenter);
     }
 

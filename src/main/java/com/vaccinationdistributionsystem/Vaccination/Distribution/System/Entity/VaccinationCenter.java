@@ -29,7 +29,7 @@ public class VaccinationCenter {
     private int covishieldDose;
 
     private int sputnikDose;
-    @Enum(enumClass = CenterPreference.class,ignoreCase = true)
+    @Enum(enumClass = CenterPreference.class)
     private String type;
 
     private String address;
