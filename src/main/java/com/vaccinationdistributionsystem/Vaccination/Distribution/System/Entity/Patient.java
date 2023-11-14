@@ -20,16 +20,18 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pid;
-
+    @NotNull
     private String name;
-    @Enum(enumClass = VaccinationPreference.class,ignoreCase = true)
+    @NotNull
+    @Enum(enumClass = VaccinationPreference.class)
     private String vaccinationPreference;
-    @Enum(enumClass = CenterPreference.class,ignoreCase = true)
+    @NotNull
+    @Enum(enumClass = CenterPreference.class)
     private String centerPreference;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "vcid",referencedColumnName = "vcid")
     private VaccinationCenter vaccinationCenter;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="doc_id",referencedColumnName = "docId")
     private Doctor doctor;
     @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
@@ -40,7 +42,7 @@ public class Patient {
     private String email;
 
     private boolean isVaccinated;
-
-    @Column(unique = true)
-    private int CertificateNumber;
+    @OneToOne
+    @JoinColumn(name = "certificate_number",referencedColumnName = "certificateId")
+    private Certificate  CertificateNumber;
 }

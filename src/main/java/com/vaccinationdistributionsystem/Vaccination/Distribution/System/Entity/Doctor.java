@@ -28,6 +28,12 @@ import java.util.Set;
         "GROUP BY vc.vcid\n" +
         "ORDER BY num_doctors ASC\n"+
         "LIMIT 1;",resultSetMapping = "VaccinationCenterVsDoctorMapping")
+@NamedNativeQuery(name = "Doctor.findDocWithMinPatientsInGivenVaccinationCenter",query = "select  doc.* from doctor doc\n" +
+        "left join patient p on doc.doc_id=p.pid \n" +
+        "where doc.vcid= :vcid \n" +
+        "group by doc.doc_id\n" +
+        "order by count(p.pid) asc \n" +
+        "limit 1;",resultClass = Doctor.class)
 //resultClass attribute only takes entity classes,not for DTOs
 public class Doctor {
 
@@ -43,6 +49,6 @@ public class Doctor {
     private VaccinationCenter vaccinationCenter;
 
     private int patientCount;
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor",cascade = CascadeType.PERSIST)
     private Set<Patient> patients=new HashSet<>();
 }

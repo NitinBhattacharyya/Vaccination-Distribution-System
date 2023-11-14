@@ -15,6 +15,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@NamedNativeQuery(name = "VaccinationCenter.findVaccinationCenterWithMinPatients",query = "select  vc.* from vaccination_center vc \n" +
+        "left join patient p on vc.vcid=p.pid \n" +
+        "where vc.type= :type \n" +
+        "group by vc.vcid \n" +
+        "order by count(p.pid) asc \n",resultClass = VaccinationCenter.class)
 public class VaccinationCenter {
 
     @Id
@@ -36,7 +41,7 @@ public class VaccinationCenter {
     @OneToMany(mappedBy = "vaccinationCenter",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST,targetEntity = Doctor.class)
     private Set<Doctor> doctors=new HashSet<>();
 
-    @OneToMany(mappedBy = "vaccinationCenter")
+    @OneToMany(mappedBy = "vaccinationCenter",cascade = CascadeType.PERSIST)
     private Set<Patient> patients=new HashSet<>();
 
 

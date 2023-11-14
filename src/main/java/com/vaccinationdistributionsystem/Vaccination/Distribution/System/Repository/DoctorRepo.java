@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface DoctorRepo extends JpaRepository<Doctor,Integer> {
     @Query(nativeQuery = true)
     public VaccinationCenterVsDocCount getVaccinationCenterVsDocCount();
+    @Query(nativeQuery = true)
+    Doctor findDocWithMinPatientsInGivenVaccinationCenter(int vcid);
 
 }
