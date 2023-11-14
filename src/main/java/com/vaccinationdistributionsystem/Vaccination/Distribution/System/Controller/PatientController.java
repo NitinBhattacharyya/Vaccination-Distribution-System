@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,5 +20,12 @@ public class PatientController {
     {
         patientService.createPatient(patient);
         return "Patient added successfully";
+    }
+
+    @PostMapping("/api/patient/giveDose")
+    public String giveDose(@RequestParam String phoneNumber)
+    {
+        patientService.giveDose(phoneNumber);
+        return "Patient has been successfully vaccinated";
     }
 }

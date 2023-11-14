@@ -1,5 +1,6 @@
 package com.vaccinationdistributionsystem.Vaccination.Distribution.System.Service;
 
+import com.vaccinationdistributionsystem.Vaccination.Distribution.System.Entity.Certificate;
 import com.vaccinationdistributionsystem.Vaccination.Distribution.System.Entity.Doctor;
 import com.vaccinationdistributionsystem.Vaccination.Distribution.System.Entity.Patient;
 import com.vaccinationdistributionsystem.Vaccination.Distribution.System.Entity.VaccinationCenter;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PatientService {
@@ -23,6 +25,9 @@ public class PatientService {
 
     @Autowired
     DoctorRepo doctorRepo;
+
+    @Autowired
+    EmailSenderService emailSenderService;
 
     public void createPatient(Patient patient)
     {
@@ -64,6 +69,25 @@ public class PatientService {
 
 
 
+    }
+
+    public void giveDose(String phoneNumber)
+    {
+        Patient patient=patientRepo.findByPhoneNumber(phoneNumber);
+        patient.setVaccinated(true);
+        Certificate certificate=new Certificate();
+        certificate.setCertificateId(UUID.randomUUID().toString());
+        certificate.setPatient(patient);
+        patient.setCertificateNumber(certificate);
+        patientRepo.save(patient);
+        String emailBody="Congratulations,you have been successfully vaccinated.\n"+"\n"+
+                "Certificate Number: "+certificate.getCertificateId()+"\n"+
+                "Patient Name: "+patient.getName()+"\n"+
+                "Vaccination Center Name: "+patient.getVaccinationCenter().getCenterName()+"\n"+
+                "Vaccination Center Address: "+patient.getVaccinationCenter().getAddress()+"\n"+
+                "Vaccinated By: "+patient.getDoctor().getDocName();
+        String subject="Vaccination Certificate";
+        emailSenderService.sendemail(patient.getEmail(), subject,emailBody);
     }
 
 

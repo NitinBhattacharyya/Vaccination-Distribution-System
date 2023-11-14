@@ -14,9 +14,9 @@ import lombok.Setter;
 public class Certificate {
 
     @Id
-    private int certificateId;
+    private String certificateId;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Patient patient;
 
 }

@@ -36,13 +36,14 @@ public class Patient {
     private Doctor doctor;
     @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
     @NotNull(message = "Phone number should not be blank")
+    @Column(unique = true)
     private String phoneNumber;
     @Column(unique = true)
     @Email(message = "Please provide valid email address")
     private String email;
 
     private boolean isVaccinated;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "certificate_number",referencedColumnName = "certificateId")
     private Certificate  CertificateNumber;
 }

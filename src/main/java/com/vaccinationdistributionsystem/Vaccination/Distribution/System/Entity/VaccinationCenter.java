@@ -16,7 +16,7 @@ import java.util.Set;
 @Setter
 @Entity
 @NamedNativeQuery(name = "VaccinationCenter.findVaccinationCenterWithMinPatients",query = "select  vc.* from vaccination_center vc \n" +
-        "left join patient p on vc.vcid=p.pid \n" +
+        "left join patient p on vc.vcid=p.vcid \n" +
         "where vc.type= :type \n" +
         "group by vc.vcid \n" +
         "order by count(p.pid) asc \n",resultClass = VaccinationCenter.class)

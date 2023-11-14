@@ -29,7 +29,7 @@ import java.util.Set;
         "ORDER BY num_doctors ASC\n"+
         "LIMIT 1;",resultSetMapping = "VaccinationCenterVsDoctorMapping")
 @NamedNativeQuery(name = "Doctor.findDocWithMinPatientsInGivenVaccinationCenter",query = "select  doc.* from doctor doc\n" +
-        "left join patient p on doc.doc_id=p.pid \n" +
+        "left join patient p on doc.doc_id=p.doc_id \n" +
         "where doc.vcid= :vcid \n" +
         "group by doc.doc_id\n" +
         "order by count(p.pid) asc \n" +
