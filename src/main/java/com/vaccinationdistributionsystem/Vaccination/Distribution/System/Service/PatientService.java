@@ -71,9 +71,13 @@ public class PatientService {
 
     }
 
-    public void giveDose(String phoneNumber)
+    public void giveDose(String phoneNumber) throws Exception
     {
         Patient patient=patientRepo.findByPhoneNumber(phoneNumber);
+        if(patient.isVaccinated())
+        {
+            throw new Exception("Patient is already vaccinated");
+        }
         patient.setVaccinated(true);
         Certificate certificate=new Certificate();
         certificate.setCertificateId(UUID.randomUUID().toString());

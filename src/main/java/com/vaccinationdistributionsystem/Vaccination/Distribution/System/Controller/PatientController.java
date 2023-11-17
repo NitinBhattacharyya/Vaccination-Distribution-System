@@ -23,7 +23,7 @@ public class PatientController {
     }
 
     @PostMapping("/api/patient/giveDose")
-    public String giveDose(@RequestParam String phoneNumber)
+    public String giveDose(@RequestParam String phoneNumber) throws Exception
     {
         patientService.giveDose(phoneNumber);
         return "Patient has been successfully vaccinated";
